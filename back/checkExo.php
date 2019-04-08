@@ -71,22 +71,22 @@ function initResultArray(){
         $out["userID"] = $_POST["userID"];
         $out["exoID"]  = $_POST["exoID"];
         $out["langID"] = $_POST["langID"];
-    }
-
-    // Prepare user folder
-    $path = "../data/users/user_" . $out["userID"] ."/";
-    
-    // Create user folder
-    if ( file_exists($path) ){
-        // If the file is NOT A FOLDER, that means there is a probleme because we cannot create a folder with its name
-        if( !is_dir($path) ){
-            $out["result"] = "userDirNameAlreadyUsed";
+        
+        // Prepare user folder
+        $path = "../data/users/user_" . $out["userID"] ."/";
+        
+        // Create user folder
+        if ( file_exists($path) ){
+            // If the file is NOT A FOLDER, that means there is a probleme because we cannot create a folder with its name
+            if( !is_dir($path) ){
+                $out["result"] = "userDirNameAlreadyUsed";
+            }
         }
-    }
-    else{
-        if( mkdir($path) === FALSE ){
-            $out[result] = "userDirCreationError";
-        }            
+        else{
+            if( mkdir($path) === FALSE ){
+                $out["result"] = "userDirCreationError";
+            }            
+        }
     }
 
     // Create User file
@@ -142,26 +142,28 @@ function getSystemCommand($infos){
 // init response
 $res = initResultArray();
 
-// Prepare system command
-$sysCmd = getSystemCommand($res);
+if( $res["result"] == "validParams" ){
+    // Prepare system command
+    $sysCmd = getSystemCommand($res);
 
-$res["message"] = $sysCmd;
+    $res["message"] = $sysCmd;
 
-// Call the system
-$lastLine = system($sysCmd, $retVal);
-if( $retVal === FALSE ){
-    $res["result"] = "sysCmdExecError";
-}
-else{
-    if( $retVal === 0 ){        
-        $res["result"] = "sysCmdSuccess";
+    // Call the system
+    $lastLine = system($sysCmd, $retVal);
+    if( $retVal === FALSE ){
+        $res["result"] = "sysCmdExecError";
     }
     else{
-        $res["result"] = "sysCmdFailure";
+        if( $retVal === 0 ){        
+            $res["result"] = "sysCmdSuccess";
+        }
+        else{
+            $res["result"] = "sysCmdFailure";
+        }
+        // Get out.txt message into error message
+        $path = "../data/users/user_" . $res["userID"] ."/";
+        $res["message"] = file_get_contents($path . "out.txt");    
     }
-    // Get out.txt message into error message
-    $path = "../data/users/user_" . $res["userID"] ."/";
-    $res["message"] = file_get_contents($path . "out.txt");    
 }
 
 // convert array to JSON format
