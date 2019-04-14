@@ -3,17 +3,17 @@
 
         <h1>Code Contest Prototype</h2>
         
-        <button onclick="chooseC()" disabled>C</button> 
-        <button onclick="chooseJava()" disabled>Java</button> 
-        <button onclick="chooseJava()" disabled>JavaScript</button> 
-        <button onclick="choosePython()">Python</button> 
-        <button onclick="choosePhp()">Php</button>
+        <button id="buttC"    onclick="chooseC()"    disabled>C</button> 
+        <button id="buttJava" onclick="chooseJava()" disabled>Java</button> 
+        <button id="buttJS"   onclick="chooseJS()"   disabled>JavaScript</button> 
+        <button id="buttPy"   onclick="choosePython()"       >Python</button> 
+        <button id="buttPhp"  onclick="choosePhp()"          >Php</button>
         <br>
         <br>
         <textarea rows=20 cols="80" id="codeArea">-- choose a programming language above --</textarea>
         <br>
         <br>
-        <button onclick="sendCode()">Send code</button> 
+        <button onclick="sendCode()" id="sendButt">Send code</button> 
         <br>
         <textarea rows=10 cols="80" id="outArea"></textarea>
             
@@ -46,6 +46,17 @@
             
             var langID = "-- choose a programming language --";
             
+            function reinitButtons(activeButton){
+                document.getElementById("buttC"   ).style.background='#C0C0C0';
+                document.getElementById("buttJava").style.background='#C0C0C0';
+                document.getElementById("buttJS"  ).style.background='#C0C0C0';
+                document.getElementById("buttPy"  ).style.background='#C0C0C0';
+                document.getElementById("buttPhp" ).style.background='#C0C0C0';
+                if(activeButton != null){
+                    document.getElementById(activeButton).style.background='#F0F0B0';
+                }
+            }
+            
             function changeLanguage(){
                 var codeZone = document.getElementById("codeArea");
                 codeZone.value =  "User ID : '"+ userID +"' Exercice ID : '"+ exoID +"' Programming Language : '"+ langID + "'";            
@@ -53,26 +64,38 @@
             
             function chooseC(){
                 langID = "C";
+                reinitButtons("buttC");
                 changeLanguage();
             }
             function chooseJava(){
                 langID = "Java";
+                reinitButtons("buttJava");
+                changeLanguage();
+            }
+            function chooseJS(){
+                langID = "JS";
+                reinitButtons("buttJS");
                 changeLanguage();
             }
             function choosePython(){
                 langID = "Python";
+                reinitButtons("buttPy");
                 changeLanguage();
             }
             function choosePhp(){
                 langID = "Php";
+                reinitButtons("buttPhp");
                 changeLanguage();
             }
             
             function sendCode() {
-                // Retrieve 
+                
                 var outZone    = document.getElementById("outArea");
                 var codeZone   = document.getElementById("codeArea");
-
+                var sendButton = document.getElementById("sendButt");
+                
+                sendButton.disabled = true;
+                
                 const options = {
                     method: 'post',
                     headers: {
@@ -84,6 +107,7 @@
                 outZone.value  = "code sent in " + langID + " language" + "\n"
                 outZone.value += "please wait..." + "\n";
                 outZone.value += options.body;
+                                
                                 
                 var url     = "./back/checkExo.php" 
                 fetch(url, options)
@@ -98,6 +122,8 @@
                                 outZone.value += "Exercice ID : '" + jsonObj.exoID   + "'\n";
                                 outZone.value += "Language ID : '" + jsonObj.langID  + "'\n\n";
                                 outZone.value += "Message     :\n" + jsonObj.message + " \n";
+
+                                setTimeout( function(){ sendButton.disabled = false }, 1000 );
                             }
                         );
                     }
@@ -107,7 +133,7 @@
             
             
             
-            
+            window.onload = reinitButtons();
             
             
             
