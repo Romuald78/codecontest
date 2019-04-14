@@ -44,6 +44,7 @@ function checkParams(){
             case "Java":
             case "C":
             case "Python":
+            case "Php":
                 $result = "validParams";
                 break;
             default :
@@ -123,12 +124,31 @@ function getSystemCommand($infos){
     
     
     $PYTHON_EXE          = stripslashes('"../system/langEnv/python/python.exe"');
+    $PHP_EXE             = stripslashes('"../system/langEnv/php/php.exe"');
+    
+    // Choose process according to selected language
+    switch( $infos["langID"] )
+    {
+        case "Python":
+            $SCRIPT_EXE = $PYTHON_EXE;
+            break;
+            
+        case "Php":
+            $SCRIPT_EXE = $PHP_EXE;
+            break;
+            
+        case "Java":
+        case "C":
+        default :
+            exit("ERROR !!");
+    }
+    
     $GEN_INPUT_SCRIPT    = "../data/exercices/" . $infos["exoID"] . "/genExercice.py " . $infos["exoID"] . " question";
     $CHECK_OUTPUT_SCRIPT = "../data/exercices/" . $infos["exoID"] . "/genExercice.py " . $infos["exoID"] . " answer";
     $USER_SCRIPT         = "../data/users/user_" . $infos["userID"] . "/dummy.txt";
     $USER_OUT            = "../data/users/user_" . $infos["userID"] . "/out.txt";
 
-    $CMD = $PYTHON_EXE ." ". $GEN_INPUT_SCRIPT ." | ". $PYTHON_EXE ." ". $USER_SCRIPT ." 2>>&1 | ". $PYTHON_EXE . " " . $CHECK_OUTPUT_SCRIPT ." > ". $USER_OUT;
+    $CMD = $PYTHON_EXE ." ". $GEN_INPUT_SCRIPT ." | ". $SCRIPT_EXE ." ". $USER_SCRIPT ." 2>>&1 | ". $PYTHON_EXE . " " . $CHECK_OUTPUT_SCRIPT ." > ". $USER_OUT;
   
     return $CMD;
 }
@@ -147,7 +167,7 @@ if( $res["result"] == "validParams" ){
     $sysCmd = getSystemCommand($res);
 
     $res["message"] = $sysCmd;
-
+    
     // Call the system
     $lastLine = system($sysCmd, $retVal);
     if( $retVal === FALSE ){

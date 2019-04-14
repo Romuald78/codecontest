@@ -3,7 +3,11 @@
 
         <h1>Code Contest Prototype</h2>
         
-        <button onclick="chooseC()">C</button> <button onclick="chooseJava()">Java</button> <button onclick="choosePython()">Python</button>
+        <button onclick="chooseC()" disabled>C</button> 
+        <button onclick="chooseJava()" disabled>Java</button> 
+        <button onclick="chooseJava()" disabled>JavaScript</button> 
+        <button onclick="choosePython()">Python</button> 
+        <button onclick="choosePhp()">Php</button>
         <br>
         <br>
         <textarea rows=20 cols="80" id="codeArea">-- choose a programming language above --</textarea>
@@ -24,7 +28,7 @@
         </form>
         !-->
 
-            
+                
         <script>
             
             <?php
@@ -59,8 +63,13 @@
                 langID = "Python";
                 changeLanguage();
             }
+            function choosePhp(){
+                langID = "Php";
+                changeLanguage();
+            }
             
             function sendCode() {
+                // Retrieve 
                 var outZone    = document.getElementById("outArea");
                 var codeZone   = document.getElementById("codeArea");
 
