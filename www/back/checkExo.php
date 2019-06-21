@@ -9,21 +9,20 @@ include_once("./const/const.inc.php");
 include_once("./CmdSystem.php");
 include_once("./Result.php");
 
+
+/*
 $ret = 0;
 CmdSystem::execute("ls", $ret);
 echo $ret;
+//*/
 
-/*
-
+//*
 // Create Result object
 $result = new Result();
-
 // Process user code
 $result->processUserCode();
-
 // Display JSON object
 echo $result;
-
 //*/
 
 ?>

@@ -39,11 +39,12 @@ define("RES_CHECKEXO_SYSCMD_EXEC_ERR"       ,"sysCmdExecError"       );
 define("RES_CHECKEXO_SYSCMD_FAIL"           ,"sysCmdFailure"         );
 define("RES_CHECKEXO_SYSCMD_SUCCESS"        ,"sysCmdSuccess"         );
 
-define("USER_CODE_FILENAME"     , "dummy.txt" );
-define("USER_CODE_FILENAME_C"   , "dummy.c"   );
-define("USER_CODE_FILENAME_JAVA", "dummy.java");
-define("USER_CODE_EXECUTABLE"   , "dummy.exec" );
-define("USER_CODE_OUT"          , "out.txt"   );
+define("USER_CODE_FILENAME"       , "dummy.txt" );
+define("USER_CODE_FILENAME_C"     , "dummy.c"   );
+define("USER_CODE_FILENAME_JAVA"  , "Dummy.java");
+define("USER_CODE_EXECUTABLE_C"   , "dummy.exec");
+define("USER_CODE_EXECUTABLE_JAVA", "Dummy"     );
+define("USER_CODE_OUT"            , "out.txt"   );
 
 
 ?>

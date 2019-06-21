@@ -140,7 +140,6 @@ class Result {
                 }
             }
             else{
-                echo $path;
                 if( mkdir($path) === FALSE ){
                     $this->setResult(RES_CHECKEXO_USER_DIR_CREATE_ERR);
                 }            
@@ -173,12 +172,19 @@ class Result {
             $path = $this->getUserPath();
             // Check which compilation must be performed
             switch( $this->getLangID() ){
+                
+                //- - - - - - - - - - - - - - - - - - - - - 
+                // Interpreted languages
                 // Nothing to do with interpreted languages
+                //- - - - - - - - - - - - - - - - - - - - - 
                 case FORM_LANG_ID_JS:
                 case FORM_LANG_ID_PHP:
                 case FORM_LANG_ID_PYTHON:
                     break;
+                
+                //- - - - - - - - - - - - - - - - - - - - - 
                 // C compilation
+                //- - - - - - - - - - - - - - - - - - - - - 
                 case FORM_LANG_ID_C:
                     // Prepare C compilation (rename user code file)
                     $ll = system( "mv ". $path . USER_CODE_FILENAME ." ". $path . USER_CODE_FILENAME_C, $retVal );
@@ -188,7 +194,7 @@ class Result {
                     else{
                         if( $retVal === 0 ){        
                             // Compile the user code
-                            $ll2 = system( "gcc ". $path . USER_CODE_FILENAME_C ." -o ". $path . USER_CODE_EXECUTABLE, $retVal2 );
+                            $ll2 = system( "gcc ". $path . USER_CODE_FILENAME_C ." -o ". $path . USER_CODE_EXECUTABLE_C, $retVal2 );
                             if( $retVal2 === FALSE ){
                                 $this->setResult(RES_CHECKEXO_SYSCMD_COMPILE_ERR);
                             }
@@ -206,10 +212,41 @@ class Result {
                         }
                     }
                     break;
+
+                //- - - - - - - - - - - - - - - - - - - - - 
                 // Java compilation
+                //- - - - - - - - - - - - - - - - - - - - - 
                 case FORM_LANG_ID_JAVA:
+                    // Prepare C compilation (rename user code file)
+                    $ll = system( "mv ". $path . USER_CODE_FILENAME ." ". $path . USER_CODE_FILENAME_JAVA, $retVal );
+                    if( $retVal === FALSE ){
+                        $this->setResult(RES_CHECKEXO_SYSCMD_COMPILE_ERR);
+                    }
+                    else{
+                        if( $retVal === 0 ){        
+                            // Compile the user code
+                            $ll2 = system( "javac ". $path . USER_CODE_FILENAME_JAVA , $retVal2 );
+                            if( $retVal2 === FALSE ){
+                                $this->setResult(RES_CHECKEXO_SYSCMD_COMPILE_ERR);
+                            }
+                            else{
+                                if( $retVal2 === 0 ){        
+                                    // OK just do nothing for the moment : executable is ready
+                                }
+                                else{
+                                    $this->setResult(RES_CHECKEXO_SYSCMD_COMPILE_ERR); 
+                                }
+                            }
+                        }
+                        else{
+                            $this->setResult(RES_CHECKEXO_SYSCMD_FAIL);
+                        }
+                    }
                     break;
+
+                //- - - - - - - - - - - - - - - - - - - - - 
                 // Bad programming language ID
+                //- - - - - - - - - - - - - - - - - - - - - 
                 default :
                     $this->setResult(RES_CHECKEXO_BAD_LANG_ID);
                     break;
@@ -230,16 +267,19 @@ class Result {
             // check which language has been used and build command according to            
             switch( $this->getLangID() ){
                 case FORM_LANG_ID_JS:
+                    $langCmd = "node " . $path . USER_CODE_FILENAME;    
                     break;
                 case FORM_LANG_ID_PHP:
+                    $langCmd = "php " . $path . USER_CODE_FILENAME;    
                     break;
                 case FORM_LANG_ID_PYTHON:
                     $langCmd = "python3 " . $path . USER_CODE_FILENAME;    
                     break;
                 case FORM_LANG_ID_C:
-                    $langCmd = $path . USER_CODE_EXECUTABLE;
+                    $langCmd = $path . USER_CODE_EXECUTABLE_C;
                     break;
                 case FORM_LANG_ID_JAVA:
+                    $langCmd = "java -cp ". $path ." ". USER_CODE_EXECUTABLE_JAVA;    
                     break;
                 // Bad programming language ID
                 default :
@@ -274,7 +314,7 @@ class Result {
                     $this->setResult(RES_CHECKEXO_SYSCMD_FAIL);
                 }
                 // Get out.txt message into error message
-                $this->setMessage( file_get_contents($path . USER_CODE_OUT) );    
+                $this->setMessage( file_get_contents($path . USER_CODE_OUT) ); 
             }
         }
     }

@@ -7,11 +7,11 @@ include_once("./back/const/const.inc.php");
     
         <h1>Code Contest Prototype</h2>
         
-        <button id="buttC"    onclick="chooseC()"            >C</button> 
-        <button id="buttJava" onclick="chooseJava()" disabled>Java</button> 
-        <button id="buttJS"   onclick="chooseJS()"   disabled>JavaScript</button> 
-        <button id="buttPy"   onclick="choosePython()"       >Python</button> 
-        <button id="buttPhp"  onclick="choosePhp()"          >Php</button>
+        <button id="buttC"    onclick="chooseC()"      >C         </button> 
+        <button id="buttJava" onclick="chooseJava()"   >Java      </button> 
+        <button id="buttJS"   onclick="chooseJS()"     >JavaScript</button> 
+        <button id="buttPy"   onclick="choosePython()" >Python    </button> 
+        <button id="buttPhp"  onclick="choosePhp()"    >Php       </button>
         <br>
         <br>
         <textarea rows=20 cols="80" id="codeArea">-- choose a programming language above --</textarea>
@@ -21,15 +21,23 @@ include_once("./back/const/const.inc.php");
         <br>
         <textarea rows=10 cols="80" id="outArea"></textarea>
             
-        <form method="POST" action="./back/checkExo.php">
-            userID : <input type="text" name="userID" value="123" /><br>
-            exoID : <input type="text" name="exoID" /><br>
-            langID : <input type="text" name="langID" /><br>
-            codeText : <textarea name="codeText"></textarea>
-            <br>
-            <input type="submit" /><br>        
-        </form>
-            
+        <?php  
+        //----------------------------------------------------------------------
+        if(isset($_GET['debug']))
+        {
+            ?>
+            <form method="POST" action="./back/checkExo.php">
+                userID : <input type="text" name="userID" value="123" /><br>
+                exoID : <input type="text" name="exoID" /><br>
+                langID : <input type="text" name="langID" /><br>
+                codeText : <textarea name="codeText"></textarea>
+                <br>
+                <input type="submit" /><br>        
+            </form>
+            <?php
+        }
+        //----------------------------------------------------------------------
+        ?>    
              
         <script>
 
