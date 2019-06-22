@@ -3,7 +3,6 @@ services:
   webserver:
     image: davidecesarano/docker-compose-lamp
     container_name: webCC2
-    restart: always
     ports: 
       - target: 80
         published: 80
@@ -13,8 +12,8 @@ services:
         published: 443
         protocol: tcp
         mode: host
-    links: 
-      - mysql
+#    links: 
+#      - mysql
     volumes:
       - //c/cc2/node:/opt/node
       - //c/cc2/www:/var/www/html
@@ -22,13 +21,13 @@ services:
       - //c/cc2/config/php/php.ini:/etc/php/7.2/apache2/conf.d/custom.ini 
       - //c/cc2/config/vhosts:/etc/apache2/sites-enabled
       - //c/cc2/ssl:/etc/letsencrypt
-  mysql:
-    image: mariadb:latest
-    container_name: mysqlCC2
-    ports:
-      - "3306:3306"
-    environment:
-      MYSQL_ROOT_PASSWORD: pwdCC2
-    volumes:
-      - //c/cc2/mysql:/var/lib/mysql
-      - //c/cc2/config/mysql:/etc/mysql
+#  mysql:
+#    image: mariadb:latest
+#    container_name: mysqlCC2
+#    ports:
+#      - "3306:3306"
+#    environment:
+#      MYSQL_ROOT_PASSWORD: pwdCC2
+#    volumes:
+#      - //c/cc2/mysql:/var/lib/mysql
+#      - //c/cc2/config/mysql:/etc/mysql

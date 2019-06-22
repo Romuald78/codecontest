@@ -30,8 +30,23 @@ RUN apt-get update \
 		php7.2-curl \
 		php7.2-mysql \
 		php7.2-xmlrpc \
-		libapache2-mod-php7.2 \
+		libapache2-mod-php7.2
 
+# Sudo
+RUN apt-get install -y sudo
+
+# Update python    
+RUN apt-get install -y software-properties-common
+
+# update C
+RUN apt-get install -y gcc
+
+# install JAVA
+#RUN sudo add-apt-repository ppa:linuxuprising/java
+#RUN sudo apt-get update
+#RUN sudo apt install oracle-java11-installer -y
+#RUN sudo apt install oracle-java11-set-default -y   
+        
 # cronolog
 RUN apt-get install -y cronolog
 
@@ -61,7 +76,7 @@ RUN curl -sL https://deb.nodesource.com/setup_8.x | bash - \
 	&& apt-get install -y nodejs \
 			   build-essential \
 	&& mkdir /opt/node
-
+      
 # actvite mod_rewrite
 RUN a2enmod rewrite ssl headers proxy proxy_http proxy_wstunnel
 
