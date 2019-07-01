@@ -288,12 +288,12 @@ class Result {
             }            
         }
         // Prepare full command according to specific command
-        $PYTHON_EXE   = "python3";
-        $GEN_INPUT    = "../data/exercices/" . $this->getExoID() . "/genExercice.py " . $this->getExoID() . " question";
-        $CHECK_OUTPUT = "../data/exercices/" . $this->getExoID() . "/genExercice.py " . $this->getExoID() . " answer";
+        $cmdExoID = $this->getExoID();
+        $GEN_INPUT    = "python3 ../data/exercices/$cmdExoID/gen_$cmdExoID.py 123457";
+        $CHECK_OUTPUT = "python3 ../data/exercices/$cmdExoID/check_$cmdExoID.py 123457";
         $USER_SCRIPT  = $langCmd;
         $USER_OUT     = $path . USER_CODE_OUT;
-        $CMD = $PYTHON_EXE ." ". $GEN_INPUT ." | ". $USER_SCRIPT ." 2>&1 | ". $PYTHON_EXE . " " . $CHECK_OUTPUT ." > ". $USER_OUT;
+        $CMD = $GEN_INPUT ." | ". $USER_SCRIPT ." 2>&1 | ". $CHECK_OUTPUT ." > ". $USER_OUT;
 
         // Execute if current object is still valid
         if( $this->isValidResult() ){
