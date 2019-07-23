@@ -1,5 +1,6 @@
 <?php
 include_once("./back/const/const.inc.php");
+include("layout.php");
 ?>
 
 <html>
@@ -7,14 +8,14 @@ include_once("./back/const/const.inc.php");
     
         <h1>Code Contest Prototype</h2>
         
-        <button id="buttC"    onclick="chooseC()"      >C         </button> 
-        <button id="buttJava" onclick="chooseJava()"   >Java      </button> 
-        <button id="buttJS"   onclick="chooseJS()"     >JavaScript</button> 
-        <button id="buttPy"   onclick="choosePython()" >Python    </button> 
-        <button id="buttPhp"  onclick="choosePhp()"    >Php       </button>
+        <button id="buttC"    onclick="chooseLanguage('C#','buttC')"      >C         </button> 
+        <button id="buttJava" onclick="chooseLanguage('JAVA','buttJava')"   >Java      </button> 
+        <button id="buttJS"   onclick="chooseLanguage('JS','buttJS')"     >JavaScript</button> 
+        <button id="buttPy"   onclick="chooseLanguage('PYTHON','buttPy')" >Python    </button> 
+        <button id="buttPhp"  onclick="chooseLanguage('PHP','buttPhp')"    >Php       </button>
         <br>
         <br>
-        <textarea rows=20 cols="80" id="codeArea">-- choose a programming language above --</textarea>
+        <textarea rows=20 cols="80" id="codeArea" placeholder = "-- choose a programming language above --"></textarea>
         <br>
         <br>
         <button onclick="sendCode()" id="sendButt">Send code</button> 
@@ -56,11 +57,12 @@ include_once("./back/const/const.inc.php");
 
             
             var langID = "-- choose a programming language --";
-            document.getElementById("codeArea").value =  "Choose a programing language above";
+            var contener = document.getElementById("codeArea");
+            contener.value =  "-- Choose a programing language above --";
             document.getElementById("outArea").value =  "";
             
             function reinitButtons(activeButton){
-                document.getElementById("buttC"   ).style.background='#B0B0B0';
+                document.getElementById("buttC").style.background='#B0B0B0';
                 document.getElementById("buttJava").style.background='#B0B0B0';
                 document.getElementById("buttJS"  ).style.background='#B0B0B0';
                 document.getElementById("buttPy"  ).style.background='#B0B0B0';
@@ -75,32 +77,141 @@ include_once("./back/const/const.inc.php");
                 var codeZone = document.getElementById("codeArea");
                 codeZone.value =  "User ID : '"+ userID +"' Exercice ID : '"+ exoID +"' Programming Language : '"+ langID + "'";            
             }
-            function chooseC(){
-                langID = <?php echo "'". FORM_LANG_ID_C ."'" ?>;
-                reinitButtons("buttC");
-                changeLanguage();
+            function chooseLanguage(lang,button){
+                switch(lang){
+                    case "C#" : 
+                        langID = <?php echo "'". FORM_LANG_ID_C ."'" ?>;
+                        break;
+                    case "JS" :
+                        langID = <?php echo "'". FORM_LANG_ID_JS ."'" ?>;
+                        break;
+                    case "JAVA":
+                        langID = <?php echo "'". FORM_LANG_ID_C ."'" ?>;
+                        break;
+                    case "PHP":
+                        langID = <?php echo "'". FORM_LANG_ID_PHP ."'" ?>;
+                        break;
+                    case "PYTHON":
+                        langID = <?php echo "'". FORM_LANG_ID_PYTHON ."'" ?>;
+                        break;
+                    default:
+                        langID = <?php echo "'Langage Invalide'" ?>;
+                }
+                swal({
+                    title: 'Changer de langage',
+                    text: "Attention, tu t'apprete a changer de langage, ta progression sera effacée",
+                    icon: 'warning',
+                    buttons:{
+                        confirm : 
+                        {
+                            text: "Changer le langage",
+                            change: true,
+                        },
+                        cancel : "Retour"
+                    },
+                    }).then((change) => {
+                    if (change) {
+                        contener.placeholder = "";
+                        reinitButtons(button);
+                        changeLanguage();
+                    }
+                })
             }
-            function chooseJava(){
-                langID = <?php echo "'". FORM_LANG_ID_JAVA ."'" ?>;
-                reinitButtons("buttJava");
-                changeLanguage();
-            }
-            function chooseJS(){
-                langID = <?php echo "'". FORM_LANG_ID_JS ."'" ?>;
-                reinitButtons("buttJS");
-                changeLanguage();
-            }
-            function choosePhp(){
-                langID = <?php echo "'". FORM_LANG_ID_PHP ."'" ?>;
-                reinitButtons("buttPhp");
-                changeLanguage();
-            }
-            function choosePython(){
-                langID = <?php echo "'". FORM_LANG_ID_PYTHON ."'" ?>;
-                reinitButtons("buttPy");
-                changeLanguage();
-            }
-
+            // function chooseC(){
+            //     Swal.fire({
+            //         title: 'Changer de langage',
+            //         text: "Attention, tu t'apprete a changer de langage, ta progression sera effacée",
+            //         type: 'warning',
+            //         showCancelButton: true,
+            //         confirmButtonColor: '#3085d6',
+            //         cancelButtonColor: '#d33',
+            //         confirmButtonText: 'Changer de langage'
+            //         }).then((result) => {
+            //         if (result.value) {
+            //             contener.placeholder = "";
+            //             langID = <?php echo "'". FORM_LANG_ID_C ."'" ?>;
+            //             reinitButtons("buttC");
+            //             changeLanguage();
+            //         }
+            //     })
+            // }
+            // function chooseJava(){
+            //     Swal.fire({
+            //         title: 'Changer de langage',
+            //         text: "Attention, tu t'apprete a changer de langage, ta progression sera effacée",
+            //         type: 'warning',
+            //         showCancelButton: true,
+            //         confirmButtonColor: '#3085d6',
+            //         cancelButtonColor: '#d33',
+            //         confirmButtonText: 'Changer de langage'
+            //         }).then((result) => {
+            //         if (result.value) {
+            //             contener.placeholder = "";
+            //             langID = <?php echo "'". FORM_LANG_ID_C ."'" ?>;
+            //             reinitButtons("buttC");
+            //             changeLanguage();
+            //         }
+            //     })
+            //     contener.placeholder = "";
+            //     langID = <?php echo "'". FORM_LANG_ID_JAVA ."'" ?>;
+            //     reinitButtons("buttJava");
+            //     changeLanguage();
+            // }
+            // function chooseJS(){
+            //     Swal.fire({
+            //         title: 'Changer de langage',
+            //         text: "Attention, tu t'apprete a changer de langage, ta progression sera effacée",
+            //         type: 'warning',
+            //         showCancelButton: true,
+            //         confirmButtonColor: '#3085d6',
+            //         cancelButtonColor: '#d33',
+            //         confirmButtonText: 'Changer de langage'
+            //         }).then((result) => {
+            //         if (result.value) {
+            //             contener.placeholder = "";
+            //             langID = <?php echo "'". FORM_LANG_ID_JS ."'" ?>;
+            //             reinitButtons("buttJS");
+            //             changeLanguage();
+            //         }
+            //     })
+            // }
+            // function choosePhp(){
+            //     Swal.fire({
+            //         title: 'Changer de langage',
+            //         text: "Attention, tu t'apprete a changer de langage, ta progression sera effacée",
+            //         type: 'warning',
+            //         showCancelButton: true,
+            //         confirmButtonColor: '#3085d6',
+            //         cancelButtonColor: '#d33',
+            //         confirmButtonText: 'Changer de langage'
+            //         }).then((result) => {
+            //         if (result.value) {
+            //             contener.placeholder = "";
+            //             langID = <?php echo "'". FORM_LANG_ID_PHP ."'" ?>;
+            //             reinitButtons("buttPhp");
+            //             changeLanguage();
+            //         }
+            //     })
+            // }
+            // function choosePython(){
+            //     Swal.fire({
+            //         title: 'Changer de langage',
+            //         text: "Attention, tu t'apprete a changer de langage, ta progression sera effacée",
+            //         type: 'warning',
+            //         showCancelButton: true,
+            //         confirmButtonColor: '#3085d6',
+            //         cancelButtonColor: '#d33',
+            //         confirmButtonText: 'Changer de langage'
+            //         }).then((result) => {
+            //         if (result.value) {
+            //             contener.placeholder = "";
+            //             langID = <?php echo "'". FORM_LANG_ID_PYTHON ."'" ?>;
+            //             reinitButtons("buttPy");
+            //             changeLanguage();
+            //         }
+            //     })
+            // }
+            
             // function that sends the user code to the back-end
             function sendCode() {
                 
