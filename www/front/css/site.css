@@ -1,6 +1,81 @@
-#codeArea,#outArea{
+body{
+    background-color: #FAFAFA;
+    font-family: 'Antic Slab', serif;
+}
+#content{
+    display: flex;
+    flex-direction: column;
+}
+.box{
+    border : 2px solid black;
+    background-color: #454A4D;
+    margin : 5px;
+    border-radius: 5px;
+}
+.subBox{
+    margin-bottom: 5px;
+}
+.btn{
     border-radius: 10px;
-    border : 1px solid black;
+    height: 30px;
+    background: turquoise;
+    border: none;
+}
+#title{
+    margin-left: auto;
+    margin-right: auto;
+}
+#mainContent{
+    margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+}
+#exerciceBox{
+    width: 330px;
+}
+#infoBox{
+    width: 320px;
+    height: 160px;
+}
+#codeArea,#outArea{
+    color: white;
+    border : 2px solid black;
+    border-radius: 10px; 
+    background-color: #454A4D;
+}
+#langButtons{
+    float: left;
+}
+#langIMG{
+    border: 1px solid black;
+    height: 50px;
+    width: 50px;
+    float: right;
+}
+#codeArea{
+    width: 754px;
+    height: 475px ;
+}
+#glotIoSlot{
+    margin: 20px;
+    height: 85%;
+}
+#codeOption{
+    margin-left: 10px;
+    margin-top: -25px;
+}
+#outArea{
+    width: 754px;
+    height:180px;
+}
+#result{
+    margin: 20px;
+}
+#codeBox{
+    border: none;
+    background-color: transparent;
+    display: flex;
+    flex-direction: column;
 }
 
 /* SWEET ALERT CSS */
