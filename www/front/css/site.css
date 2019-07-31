@@ -45,12 +45,12 @@ body{
 }
 #langButtons{
     float: left;
+    margin-top: 20px;
 }
-#langIMG{
+#langIMG,#langIMG2{
     border: 1px solid black;
-    height: 50px;
-    width: 50px;
     float: right;
+    margin-bottom: 5px;
 }
 #codeArea{
     width: 754px;

@@ -20,7 +20,7 @@ include("layoutTop.php");
                             <button id="buttPy" class="btn"  onclick="chooseLanguage('PYTHON','buttPy')">Python</button> 
                             <button id="buttPhp" class="btn" onclick="chooseLanguage('PHP','buttPhp')">Php</button>
                         </div>
-                        <div id=langIMG></div>
+                        <img id= "langIMG"/>
                     </div>
                     <div id="codeArea" class ="subBox">
                         <div id="langInfo"></div>
@@ -41,7 +41,7 @@ include("layoutTop.php");
                 <div id="infoBox" class ="box">
                     <div id="infoArea"><div>Ici il y aura les informations générales, du type : Nombres de codeurs en tête</div></div>
                 </div>
-            </div>
+            </div>  
         </div>
             
                 
@@ -83,8 +83,16 @@ include("layoutTop.php");
             var contener = document.getElementById("langInfo");
             contener.innerHTML =  "-- Choose a programing language above --";
             document.getElementById("result").innerHTML =  "";
-            
+            var img = document.getElementById("langIMG");
+            var imgName = "";
+            var iheight = "60px";
+            var iwidht = "60px";
+            img.style.height = iheight;
+            img.style.width = iwidht;
+
             function reinitButtons(activeButton){
+                iheight = "60px";
+                iwidht = "60px";
                 document.getElementById("buttC").style.background='turquoise';
                 document.getElementById("buttJava").style.background='turquoise';
                 document.getElementById("buttJS"  ).style.background='turquoise';
@@ -104,18 +112,26 @@ include("layoutTop.php");
                 switch(lang){
                     case "C#" : 
                         langID = <?php echo "'". FORM_LANG_ID_C ."'" ?>;
+                        imgName = "clogo.png";
+                        console.log(img.backgroundImage, img.backgroundSize, img);
                         break;
                     case "JS" :
                         langID = <?php echo "'". FORM_LANG_ID_JS ."'" ?>;
+                        imgName = "jslogo.png";
                         break;
                     case "JAVA":
                         langID = <?php echo "'". FORM_LANG_ID_C ."'" ?>;
+                        imgName = "javalogo.png";
+                        iheight = "75px";
                         break;
                     case "PHP":
                         langID = <?php echo "'". FORM_LANG_ID_PHP ."'" ?>;
+                        imgName = "phplogo.png";
+                        iwidht = "85px";
                         break;
                     case "PYTHON":
                         langID = <?php echo "'". FORM_LANG_ID_PYTHON ."'" ?>;
+                        imgName = "pythonlogo.png";
                         break;
                     default:
                         langID = <?php echo "'Langage Invalide'" ?>;
@@ -133,11 +149,16 @@ include("layoutTop.php");
                         cancel : "Retour"
                     },
                     }).then((change) => {
-                    if (change) {
-                        contener.placeholder = "";
-                        reinitButtons(button);
-                        changeLanguage();
-                    }
+                        if (change) {
+                            var imgLink = "front/img/"+imgName+""
+                            console.log(imgLink);
+                            img.style.height = iheight;
+                            img.style.width = iwidht;
+                            img.src = imgLink;
+                            contener.placeholder = "";
+                            reinitButtons(button);
+                            changeLanguage();
+                        }
                 })
             }
             {//Commented functions
